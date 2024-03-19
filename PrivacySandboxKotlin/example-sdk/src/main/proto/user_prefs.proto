@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-package datastore;
-
 message UserPreferences {
   // filter for showing / hiding completed tasks
   bool show_completed = 1;
