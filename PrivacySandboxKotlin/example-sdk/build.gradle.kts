@@ -16,7 +16,7 @@
 plugins {
     alias(libs.plugins.privacysandbox.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.google.protobuf)
+    id("unityads.protobuf-conventions")
 }
 
 android {
@@ -57,26 +57,4 @@ dependencies {
     implementation(libs.privacysandbox.ui.provider)
     implementation(libs.privacysandbox.activity.core)
     implementation(libs.privacysandbox.activity.provider)
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.21.12"
-    }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
-    generateProtoTasks {
-        all().forEach {task ->
-            task.builtins {
-                create("java") {
-                    option("lite")
-                }
-                create("kotlin") {
-                    option("lite")
-                }
-            }
-        }
-    }
 }
