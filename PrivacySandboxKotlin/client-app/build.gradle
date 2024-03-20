@@ -26,10 +26,9 @@ android {
 
     defaultConfig {
         applicationId "com.example.privacysandbox.client"
-        minSdkVersion 21
-        compileSdk 34
-        compileSdkExtension 10
-        targetSdkVersion 34
+        minSdkPreview "UpsideDownCakePrivacySandbox"
+        compileSdkPreview "UpsideDownCakePrivacySandbox"
+        targetSdkPreview "UpsideDownCakePrivacySandbox"
         versionCode 2
         versionName "1.01"
 

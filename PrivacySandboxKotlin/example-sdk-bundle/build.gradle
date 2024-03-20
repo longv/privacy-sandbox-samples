@@ -19,9 +19,10 @@ plugins {
 }
 
 android {
-    compileSdk 34
-    compileSdkExtension 10
-    minSdk 21
+    namespace 'com.unity3d.ads.asb'
+
+    minSdkPreview "UpsideDownCakePrivacySandbox"
+    compileSdkPreview "UpsideDownCakePrivacySandbox"
 
     bundle {
         // This package name is used to load this SDK in the Privacy Sandbox later on.

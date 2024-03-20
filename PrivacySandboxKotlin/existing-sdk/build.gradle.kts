@@ -14,42 +14,45 @@
  * limitations under the License.
  */
 plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 // A standard android library that uses a Runtime-enabled Ad library to show "ads".
 android {
-    namespace 'com.existing.sdk'
+    namespace = "com.existing.sdk"
+
     privacySandbox {
         enable = true
     }
+
     defaultConfig {
-        compileSdk 34
-        compileSdkExtension 10
-        targetSdk 34
-        minSdk 21
+        minSdkPreview = "UpsideDownCakePrivacySandbox"
+        compileSdkPreview = "UpsideDownCakePrivacySandbox"
+        targetSdkPreview = "UpsideDownCakePrivacySandbox"
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = "17"
     }
 
     experimentalProperties["android.privacySandboxSdk.apiGenerator"] =
             project.dependencies.create(
-                    "androidx.privacysandbox.tools:tools-apigenerator:$privacy_sandbox_tools_version")
+                    "androidx.privacysandbox.tools:tools-apigenerator:${rootProject.extra["privacy_sandbox_tools_version"]}")
 
-    experimentalProperties["android.privacySandboxSdk.apiGenerator.generatedRuntimeDependencies"] = [
+    experimentalProperties["android.privacySandboxSdk.apiGenerator.generatedRuntimeDependencies"] = listOf(
             project.dependencies.create("org.jetbrains.kotlin:kotlin-stdlib:1.7.20-RC"),
             project.dependencies.create("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"),
-            project.dependencies.create("androidx.privacysandbox.activity:activity-core:$privacy_sandbox_activity_version"),
-            project.dependencies.create("androidx.privacysandbox.activity:activity-client:$privacy_sandbox_activity_version"),
-            project.dependencies.create("androidx.privacysandbox.ui:ui-core:$privacy_sandbox_ui_version"),
-            project.dependencies.create("androidx.privacysandbox.ui:ui-client:$privacy_sandbox_ui_version"),
-    ]
+            project.dependencies.create("androidx.privacysandbox.activity:activity-core:${rootProject.extra["privacy_sandbox_activity_version"]}"),
+            project.dependencies.create("androidx.privacysandbox.activity:activity-client:${rootProject.extra["privacy_sandbox_activity_version"]}"),
+            project.dependencies.create("androidx.privacysandbox.ui:ui-core:${rootProject.extra["privacy_sandbox_ui_version"]}"),
+            project.dependencies.create("androidx.privacysandbox.ui:ui-client:${rootProject.extra["privacy_sandbox_ui_version"]}"),
+    )
 }
 
 dependencies {
@@ -58,18 +61,16 @@ dependencies {
     // The example-sdk library contains all the logic, but apps are not compiled using its full
     // classpath. Instead, the bundle contains information about the SDK API and the Android Gradle
     // Plugin uses it to generate sources and compile the app.
-    debugImplementation project(':example-sdk-bundle')
+    debugImplementation(project(":example-sdk-bundle"))
 
     // Required for backwards compatibility on devices where SDK Runtime is unavailable.
-    implementation "androidx.privacysandbox.sdkruntime:sdkruntime-client:$privacy_sandbox_sdk_runtime_version"
-
+    implementation(libs.privacysandbox.sdkruntime.client)
     // This is required to display banner ads using the SandboxedUiAdapter interface.
-    implementation "androidx.privacysandbox.ui:ui-core:$privacy_sandbox_ui_version"
-    implementation "androidx.privacysandbox.ui:ui-client:$privacy_sandbox_ui_version"
-
+    implementation(libs.privacysandbox.ui.core)
+    implementation(libs.privacysandbox.ui.client)
     // This is required to use SDK ActivityLaunchers.
-    implementation "androidx.privacysandbox.activity:activity-core:$privacy_sandbox_activity_version"
-    implementation "androidx.privacysandbox.activity:activity-client:$privacy_sandbox_activity_version"
+    implementation(libs.privacysandbox.activity.core)
+    implementation(libs.privacysandbox.activity.client)
 
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation("androidx.appcompat:appcompat:1.6.1")
 }
